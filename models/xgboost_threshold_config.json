@@ -1,0 +1,35 @@
+{
+  "selected_threshold": 0.35,
+  "default_threshold": 0.5,
+  "algorithm": "XGBClassifier",
+  "hyperparameters": {
+    "n_estimators": 150,
+    "max_depth": 5,
+    "learning_rate": 0.08,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "scale_pos_weight": 5.0,
+    "eval_metric": "logloss"
+  },
+  "validation_metrics": {
+    "pr_auc": 0.8287110137255282,
+    "roc_auc": 0.9735540708627017,
+    "brier_score": 0.0004595004138536751,
+    "threshold": 0.35,
+    "precision": 0.9253731343283582,
+    "recall": 0.7848101265822784,
+    "f1": 0.8493150684931506
+  },
+  "test_metrics": {
+    "pr_auc": 0.874903253178494,
+    "roc_auc": 0.9764558186808769,
+    "brier_score": 0.00037441361928358674,
+    "threshold": 0.35,
+    "precision": 0.9021739130434783,
+    "recall": 0.8469387755102041,
+    "f1": 0.8736842105263158,
+    "fp": 9,
+    "fn": 15,
+    "tp": 83
+  }
+}

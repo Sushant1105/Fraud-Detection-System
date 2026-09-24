@@ -1,4 +1,4 @@
-﻿"""
+"""
 Model explainability and interpretability module for the Real-Time Fraud Detection System.
 Implements local and global transaction risk attribution using SHAP TreeExplainer.
 """
@@ -11,9 +11,12 @@ import pandas as pd
 import shap
 
 
-DEFAULT_MODEL_PATH = Path("models/xgboost_advanced_model.joblib")
-DEFAULT_PREPROCESSOR_PATH = Path("models/preprocessor.joblib")
-DEFAULT_CONFIG_PATH = Path("models/xgboost_threshold_config.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+MODELS_DIR = PROJECT_ROOT / "models"
+
+DEFAULT_MODEL_PATH = MODELS_DIR / "xgboost_advanced_model.joblib"
+DEFAULT_PREPROCESSOR_PATH = MODELS_DIR / "preprocessor.joblib"
+DEFAULT_CONFIG_PATH = MODELS_DIR / "xgboost_threshold_config.json"
 
 
 class FraudExplainer:
@@ -38,12 +41,29 @@ class FraudExplainer:
         preprocessor_path = Path(preprocessor_path)
         threshold_config_path = Path(threshold_config_path)
 
+        # Support project-relative resolution if relative path doesn't exist in current working directory
+        if not model_path.is_absolute() and not model_path.exists():
+            candidate = PROJECT_ROOT / model_path
+            if candidate.exists():
+                model_path = candidate
+
+        if not preprocessor_path.is_absolute() and not preprocessor_path.exists():
+            candidate = PROJECT_ROOT / preprocessor_path
+            if candidate.exists():
+                preprocessor_path = candidate
+
+        if not threshold_config_path.is_absolute() and not threshold_config_path.exists():
+            candidate = PROJECT_ROOT / threshold_config_path
+            if candidate.exists():
+                threshold_config_path = candidate
+
         if not model_path.exists():
             raise FileNotFoundError(f"Model file not found at: {model_path}")
         if not preprocessor_path.exists():
             raise FileNotFoundError(f"Preprocessor file not found at: {preprocessor_path}")
         if not threshold_config_path.exists():
             raise FileNotFoundError(f"Threshold config not found at: {threshold_config_path}")
+
 
         # 1. Load trained model, preprocessor, and threshold metadata
         self.model = joblib.load(model_path)
