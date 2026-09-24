@@ -6,7 +6,7 @@ import os
 from typing import Dict, Any, Tuple, Optional
 import requests
 
-API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:8000").rstrip("/")
+API_BASE_URL = os.environ.get("API_BASE_URL", "https://fraud-detection-system-t3ba.onrender.com").rstrip("/")
 
 
 class FraudApiClient:
@@ -15,7 +15,7 @@ class FraudApiClient:
     def __init__(self, base_url: str = API_BASE_URL):
         self.base_url = base_url
 
-    def check_health(self, timeout: float = 3.0) -> Tuple[bool, Optional[Dict[str, Any]], Optional[str]]:
+    def check_health(self, timeout: float = 15.0) -> Tuple[bool, Optional[Dict[str, Any]], Optional[str]]:
         """
         Check health of FastAPI microservice.
         Returns: (is_online, health_data_dict, error_message)
@@ -36,7 +36,7 @@ class FraudApiClient:
     def predict_transaction(
         self,
         payload: Dict[str, Any],
-        timeout: float = 6.0
+        timeout: float = 45.0
     ) -> Tuple[bool, Optional[Dict[str, Any]], Optional[str]]:
         """
         Send raw transaction to POST /predict.
@@ -64,7 +64,7 @@ class FraudApiClient:
         self,
         limit: int = 50,
         offset: int = 0,
-        timeout: float = 5.0,
+        timeout: float = 45.0,
     ) -> Tuple[bool, Optional[Dict[str, Any]], Optional[str]]:
         """
         Fetch paginated transaction history from GET /transactions.
@@ -87,7 +87,7 @@ class FraudApiClient:
     def get_transaction(
         self,
         transaction_id: str,
-        timeout: float = 5.0,
+        timeout: float = 45.0,
     ) -> Tuple[bool, Optional[Dict[str, Any]], Optional[str]]:
         """
         Fetch single transaction prediction record by transaction_id from GET /transactions/{transaction_id}.
@@ -110,7 +110,7 @@ class FraudApiClient:
 
     def get_stats(
         self,
-        timeout: float = 5.0,
+        timeout: float = 45.0,
     ) -> Tuple[bool, Optional[Dict[str, Any]], Optional[str]]:
         """
         Fetch aggregate scoring metrics from GET /stats.
